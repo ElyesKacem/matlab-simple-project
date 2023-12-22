@@ -22,7 +22,7 @@ function varargout = edit(varargin)
 
 % Edit the above text to modify the response to help edit
 
-% Last Modified by GUIDE v2.5 22-Dec-2023 00:49:24
+% Last Modified by GUIDE v2.5 22-Dec-2023 20:27:27
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -42,6 +42,7 @@ else
     gui_mainfcn(gui_State, varargin{:});
 end
 % End initialization code - DO NOT EDIT
+
 
 
 % --- Executes just before edit is made visible.
@@ -89,13 +90,48 @@ axis(handles.axes1, 'image'); % Set equal aspect ratio for the axes
 
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+showPanelByName(handles,"Arithmetic");
+
+% Function definition for hideAllPanels
+function hideAllPanels(handles)
+    % Iterate through all panel handles and hide them
+     % Get all panel handles
+    panelHandles = findobj(handles.figure1, 'Type', 'uipanel');
+
+    % Find the panel with the title 'tools'
+    toolsPanel = findobj(panelHandles, 'Title', 'tools');
+
+    % Hide all panels except the 'tools' panel
+    for i = 1:numel(panelHandles)
+        if panelHandles(i) ~= toolsPanel
+            set(panelHandles(i), 'Visible', 'off');
+        end
+    end
+function showPanelByName(handles, panelName)
+hideAllPanels(handles); % Assuming hideAllPanels function exists
+
+% Find all panel handles
+panelHandles = findobj(handles.figure1, 'Type', 'uipanel');
+
+% Find the panel by its title
+panel = findobj(panelHandles, 'Title', panelName);
+
+% Set the visibility of the found panel to 'on'
+set(panel, 'Visible', 'on');
 
 
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
+ % Get the image from the axes
+    img = getimage(handles.axes1);
+
+    % Perform the rotation (e.g., rotate by 45 degrees)
+    rotated_img = imrotate(img, -90, 'nearest', 'loose');
+    %rotated_img = imrotate(img, 45, 'nearest', 'crop');  % Rotate by 45 degrees using nearest neighbor interpolation and crop the output
+
+    % Display the rotated image
+    axes(handles.axes1);
+    imshow(rotated_img);  % Show the rotated image
 % hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -123,11 +159,9 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 
 % --- Executes on button press in pushbutton8.
 function pushbutton8_Callback(hObject, eventdata, handles)
+hideAllPanels(handles);
 % Convert the grayscale image to RGB
-Pi = getimage(handles.axes1);
-[r,c,m]  = size(Pi);
-rgbImage = repmat(reshape(Pi / 255, [r, c, 1, m]), [1, 1, 3, 1]);
-imshow(rgbImage, 'Parent', handles.axes1);
+
 % hObject    handle to pushbutton8 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -135,9 +169,8 @@ imshow(rgbImage, 'Parent', handles.axes1);
 
 % --- Executes on button press in pushbutton9.
 function pushbutton9_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton9 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+showPanelByName(handles,"Amorphose");
+
 
 
 % --- Executes on button press in pushbutton10.
@@ -318,10 +351,10 @@ end
 
 % --- Executes on button press in pushbutton28.
 function pushbutton28_Callback(hObject, eventdata, handles)
-% Assuming 'selectradio' is the handle for your ButtonGroup
+% Assuming 'selectfunction' is the handle for your ButtonGroup
 selectedButton = get(handles.selectradio, 'SelectedObject'); 
 operation = get(selectedButton, 'String'); % Get the string value of the selected radio button
-
+disp(operation);
 % Rest of your code remains unchanged
 img = getimage(handles.axes1);
 value = str2double(get(handles.edit1, 'String')); 
@@ -415,3 +448,11 @@ function radiobutton5_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of radiobutton5
+
+
+% --- Executes on button press in pushbutton29.
+function pushbutton29_Callback(hObject, eventdata, handles)
+
+% hObject    handle to pushbutton29 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
