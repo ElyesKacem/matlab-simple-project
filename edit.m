@@ -22,7 +22,7 @@ function varargout = edit(varargin)
 
 % Edit the above text to modify the response to help edit
 
-% Last Modified by GUIDE v2.5 22-Dec-2023 20:27:27
+% Last Modified by GUIDE v2.5 22-Dec-2023 22:18:19
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -97,6 +97,8 @@ function hideAllPanels(handles)
     % Iterate through all panel handles and hide them
      % Get all panel handles
     panelHandles = findobj(handles.figure1, 'Type', 'uipanel');
+    amorphose = findobj('Type', 'uipanel', 'Title', 'Amorphose');
+    set(amorphose, 'Position', [207 -0.058823529411764705 52.714285714285694 51.470588235294116]);
 
     % Find the panel with the title 'tools'
     toolsPanel = findobj(panelHandles, 'Title', 'tools');
@@ -118,6 +120,8 @@ panel = findobj(panelHandles, 'Title', panelName);
 
 % Set the visibility of the found panel to 'on'
 set(panel, 'Visible', 'on');
+amorphose = findobj('Type', 'uipanel', 'Title', panelName);
+   set(amorphose, 'Position', [207 -0.058823529411764705 52.714285714285694 51.470588235294116]);
 
 
 % --- Executes on button press in pushbutton5.
@@ -159,12 +163,32 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 
 % --- Executes on button press in pushbutton8.
 function pushbutton8_Callback(hObject, eventdata, handles)
-hideAllPanels(handles);
-% Convert the grayscale image to RGB
+img = getimage(handles.axes1);
+showPanelByName(handles,"Graphes");
+originalImage = getimage(handles.axes1);
+TF = fft2(img);
+fft=fftshift(TF);
+sc=imagesc(img);
 
-% hObject    handle to pushbutton8 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
+
+axes(handles.axes2);
+imshow(TF);
+
+axes(handles.axes6);
+imshow(fft);
+
+hs=imhist(img);
+axes(handles.axes7);
+imshow(hs);
+
+
+axes(handles.axes8);
+imshow(sc);
+
+
+
+
 
 
 % --- Executes on button press in pushbutton9.
@@ -259,6 +283,7 @@ function pushbutton19_Callback(hObject, eventdata, handles)
 
 % --- Executes on button press in pushbutton20.
 function pushbutton20_Callback(hObject, eventdata, handles)
+showPanelByName(handles,"Masquer zone");
 % hObject    handle to pushbutton20 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -456,3 +481,149 @@ function pushbutton29_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton29 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton31.
+function pushbutton31_Callback(hObject, eventdata, handles)
+selectedButton = get(handles.uibuttongroup4, 'SelectedObject'); 
+operation = get(selectedButton, 'String'); % Get the string value of the selected radio button
+%disp(operation);
+% Rest of your code remains unchanged
+img = getimage(handles.axes1); 
+switch operation
+    case 'EXP'
+        img_double = im2double(img);
+
+    % Apply exponential transformation to each pixel value
+    exponentiated_img = exp(img_double);
+
+    % Scale the transformed image to [0, 1] for display (if needed)
+    exponentiated_img = mat2gray(exponentiated_img);
+
+    % Display the transformed image
+    axes(handles.axes1);
+    imshow(exponentiated_img);  % Show the transformed image
+       
+    case 'LOG'
+        img_double = im2double(img);
+        log_transformed_img = log10(img_double + 1);        
+        axes(handles.axes1);
+        imshow(log_transformed_img);  % Show the transformed image
+    case 'SQRT'
+        img_double = im2double(img);
+
+    % Apply square root transformation to each pixel value
+    sqrt_transformed_img = sqrt(img_double);
+
+    % Display the transformed image
+    axes(handles.axes1);
+    imshow(sqrt_transformed_img);  % Show the transformed image
+    otherwise
+        disp('Error: Unrecognized operation');
+        
+end
+
+
+
+function edit4_Callback(hObject, eventdata, handles)
+% hObject    handle to edit4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit4 as text
+%        str2double(get(hObject,'String')) returns contents of edit4 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit4_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton32.
+function pushbutton32_Callback(hObject, eventdata, handles)
+minVal = str2double(get(handles.minVal, 'String')); 
+maxVal = str2double(get(handles.maxVal, 'String'));
+img = getimage(handles.axes1);
+img=imadjust(img, [minVal; maxVal]);
+axes(handles.axes1);
+imshow(img); 
+% hObject    handle to pushbutton32 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function minVal_Callback(hObject, eventdata, handles)
+% hObject    handle to minVal (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of minVal as text
+%        str2double(get(hObject,'String')) returns contents of minVal as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function minVal_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to minVal (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function maxVal_Callback(hObject, eventdata, handles)
+% hObject    handle to maxVal (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of maxVal as text
+%        str2double(get(hObject,'String')) returns contents of maxVal as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function maxVal_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to maxVal (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit7_Callback(hObject, eventdata, handles)
+% hObject    handle to edit7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit7 as text
+%        str2double(get(hObject,'String')) returns contents of edit7 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit7_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
