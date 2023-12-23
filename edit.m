@@ -165,12 +165,10 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 function pushbutton8_Callback(hObject, eventdata, handles)
 img = getimage(handles.axes1);
 showPanelByName(handles,"Graphes");
-originalImage = getimage(handles.axes1);
+%hs=imhist(img);
 TF = fft2(img);
 fft=fftshift(TF);
-sc=imagesc(img);
-
-
+%sc=imagesc(img);
 
 axes(handles.axes2);
 imshow(TF);
@@ -178,13 +176,14 @@ imshow(TF);
 axes(handles.axes6);
 imshow(fft);
 
-hs=imhist(img);
-axes(handles.axes7);
-imshow(hs);
-
+histogram(handles.axes7,img);
 
 axes(handles.axes8);
-imshow(sc);
+%imshow(hs);
+%imshow(img);
+
+
+
 
 
 
