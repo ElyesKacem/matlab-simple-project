@@ -22,7 +22,7 @@ function varargout = edit(varargin)
 
 % Edit the above text to modify the response to help edit
 
-% Last Modified by GUIDE v2.5 22-Dec-2023 22:18:19
+% Last Modified by GUIDE v2.5 23-Dec-2023 21:16:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -165,10 +165,8 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 function pushbutton8_Callback(hObject, eventdata, handles)
 img = getimage(handles.axes1);
 showPanelByName(handles,"Graphes");
-%hs=imhist(img);
 TF = fft2(img);
 fft=fftshift(TF);
-%sc=imagesc(img);
 
 axes(handles.axes2);
 imshow(TF);
@@ -179,15 +177,8 @@ imshow(fft);
 histogram(handles.axes7,img);
 
 axes(handles.axes8);
-%imshow(hs);
-%imshow(img);
-
-
-
-
-
-
-
+b=log(abs(TF));
+imagesc(b);
 
 
 % --- Executes on button press in pushbutton9.
@@ -199,9 +190,21 @@ showPanelByName(handles,"Amorphose");
 % --- Executes on button press in pushbutton10.
 function pushbutton10_Callback(hObject, eventdata, handles)
 img = getimage(handles.axes1);
-img=rgb2ntsc(img);
-axes(handles.axes1);
-imshow(uint8(img));
+showPanelByName(handles,"Graphes");
+TF = fft2(img);
+fft=fftshift(TF);
+
+axes(handles.axes2);
+imshow(TF);
+
+axes(handles.axes6);
+imshow(fft);
+
+histogram(handles.axes7,img);
+
+axes(handles.axes8);
+b=log(abs(TF));
+imagesc(b);
 % hObject    handle to pushbutton10 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -275,9 +278,22 @@ imshow(img);
 
 % --- Executes on button press in pushbutton19.
 function pushbutton19_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton19 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+img = getimage(handles.axes1);
+showPanelByName(handles,"Graphes");
+TF = fft2(img);
+fft=fftshift(TF);
+
+axes(handles.axes2);
+imshow(TF);
+
+axes(handles.axes6);
+imshow(fft);
+
+histogram(handles.axes7,img);
+
+axes(handles.axes8);
+b=log(abs(TF));
+imagesc(b);
 
 
 % --- Executes on button press in pushbutton20.
@@ -626,3 +642,36 @@ function edit7_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in pushbutton35.
+function pushbutton35_Callback(hObject, eventdata, handles)
+showPanelByName(handles,"Draw edges");
+hx = fspecial('sobel');
+hy = hx';
+
+imgg = getimage(handles.axes1);
+img = rgb2gray(imgg);
+
+gx = conv2(img,hx);
+gy = conv2(img,hy);
+
+norme = max(abs(gx),abs(gy));
+
+axes(handles.axes9);
+imshow(norme);
+
+imgSB = edge(img,'sobel','both');
+axes(handles.axes10);
+imshow(imgSB);
+imgPB = edge(img,'prewitt','both');
+axes(handles.axes11);
+imshow(imgPB);
+imgRB = edge(img,'roberts','both');
+axes(handles.axes12);
+imshow(imgRB);
+
+
+% hObject    handle to pushbutton35 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
