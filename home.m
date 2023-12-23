@@ -22,7 +22,7 @@ function varargout = home(varargin)
 
 % Edit the above text to modify the response to help home
 
-% Last Modified by GUIDE v2.5 19-Dec-2023 14:02:44
+% Last Modified by GUIDE v2.5 23-Dec-2023 23:07:20
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -70,19 +70,116 @@ function varargout = home_OutputFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 ah=axes('unit','normalized','position',[0 0 1 1]);
-bg=imread('D:\DS matlab\background.jpg');imagesc(bg);
+bg=imread('D:\DS matlab\main.jpg');imagesc(bg);
 set(ah,'handlevisibility','off','visible','off')
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
+function hideAllPanels(handles,panelName)
+    % Iterate through all panel handles and hide them
+     % Get all panel handles
+    panelHandles = findobj(handles.figure1, 'Type', 'uipanel');
+    for i = 1:numel(panelHandles)        
+        set(panelHandles(i), 'Visible', 'off');        
+    end
+    panel = findobj('Type', 'uipanel', 'Tag', panelName);
+    set(panel, 'Position', [23.142857142857142 3.764705882352941 113.71428571428572 32.88235294117647]);
+    set(panel,'Visible', 'on');
 
+    % Find the panel with the title 'tools'
+    
+
+    % Hide all panels except the 'tools' panel
+    
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
 % msgbox('push button pressed')
-strGui2 = ('D:\DS matlab\DS.fig'); %Set your GUI file's location
+strGui2 = ('D:\DS matlab\edit.fig'); %Set your GUI file's location
 open (strGui2); %Open the new GUI 
 closereq; 
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+hideAllPanels(handles,"uipanel4");
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+
+    % Update handles structure
+ 
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+hideAllPanels(handles,"uipanel7");
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+% --- Executes during object creation, after setting all properties.
+function axes3_CreateFcn(hObject, eventdata, handles)
+imshow('capture1.jpg'); 
+% hObject    handle to axes3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes3
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+hideAllPanels(handles,"uipanel8");
+% hObject    handle to pushbutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton9.
+function pushbutton9_Callback(hObject, eventdata, handles)
+strGui2 = ('D:\DS matlab\edit.fig'); %Set your GUI file's location
+open (strGui2); %Open the new GUI 
+closereq; 
+% hObject    handle to pushbutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function axes4_CreateFcn(hObject, eventdata, handles)
+imshow('capture2.jpg'); 
+% hObject    handle to axes4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes4
