@@ -43,7 +43,22 @@ else
 end
 % End initialization code - DO NOT EDIT
 
+function hideAllPanels(handles)
+    % Iterate through all panel handles and hide them
+     % Get all panel handles
+    panelHandles = findobj(handles.figure1, 'Type', 'uipanel');
+    amorphose = findobj('Type', 'uipanel', 'Title', 'Amorphose');
+    set(amorphose, 'Position', [207 -0.058823529411764705 52.714285714285694 51.470588235294116]);
 
+    % Find the panel with the title 'tools'
+    toolsPanel = findobj(panelHandles, 'Title', 'tools');
+
+    % Hide all panels except the 'tools' panel
+    for i = 1:numel(panelHandles)
+        if panelHandles(i) ~= toolsPanel
+            set(panelHandles(i), 'Visible', 'off');
+        end
+    end
 
 % --- Executes just before edit is made visible.
 function edit_OpeningFcn(hObject, eventdata, handles, varargin)
@@ -60,6 +75,7 @@ handles.output = hObject;
 % Update handles structure
 guidata(hObject, handles);
 
+hideAllPanels(handles);
 % UIWAIT makes edit wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
@@ -80,6 +96,8 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 [filename,filepath]=uigetfile({'*.jpg';'*.png';'*.*'},'Find image to be modified');
 fullname=[filepath filename];
 ImageFile=imread(fullname);
+disp(filename)
+disp(filepath)
 axes(handles.axes1);
 imshow(ImageFile, 'Parent', handles.axes1); % Display image using imshow
 axis(handles.axes1, 'image'); % Set equal aspect ratio for the axes
@@ -93,22 +111,7 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 showPanelByName(handles,"Arithmetic");
 
 % Function definition for hideAllPanels
-function hideAllPanels(handles)
-    % Iterate through all panel handles and hide them
-     % Get all panel handles
-    panelHandles = findobj(handles.figure1, 'Type', 'uipanel');
-    amorphose = findobj('Type', 'uipanel', 'Title', 'Amorphose');
-    set(amorphose, 'Position', [207 -0.058823529411764705 52.714285714285694 51.470588235294116]);
 
-    % Find the panel with the title 'tools'
-    toolsPanel = findobj(panelHandles, 'Title', 'tools');
-
-    % Hide all panels except the 'tools' panel
-    for i = 1:numel(panelHandles)
-        if panelHandles(i) ~= toolsPanel
-            set(panelHandles(i), 'Visible', 'off');
-        end
-    end
 function showPanelByName(handles, panelName)
 hideAllPanels(handles); % Assuming hideAllPanels function exists
 
