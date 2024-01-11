@@ -94,13 +94,14 @@ function hideAllPanels(handles,panelName)
     
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
-% msgbox('push button pressed')
- strGui2 = 'D:\DS matlab\edit.fig';
-    edit_handles = guidata(open(strGui2));
-    % Pass the handles structure to the edit GUI
-    edit('updateHandles', edit_handles);
+ close(handles.figure1);
 
-    closereq;
+% Open the edit figure and pass the handles structure
+editFig = edit(handles);
+editHandles = guidata(editFig);
+
+% Update handles structure with the new figure's handle
+handles.editHandles = editHandles;
 
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -180,7 +181,7 @@ editHandles = guidata(editFig);
 
 % Update handles structure with the new figure's handle
 handles.editHandles = editHandles;
-guidata(hObject, handles);
+%guidata(hObject, handles);
 %strGui2 = ('D:\DS matlab\edit.fig'); %Set your GUI file's location
 %open (strGui2); %Open the new GUI 
 %closereq; 

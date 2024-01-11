@@ -63,19 +63,42 @@ function hideAllPanels(handles)
 % --- Executes just before edit is made visible.
 function edit_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to edit (see VARARGIN)
+    % hObject    handle to figure
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+    % varargin   command line arguments to edit (see VARARGIN)
 
+    % Choose default command line output for edit
+    handles.output = hObject;
 
-% Choose default command line output for edit
-handles.output = hObject;
+    % Update handles structure
+    guidata(hObject, handles);
 
-% Update handles structure
-guidata(hObject, handles);
+    % UIWAIT makes edit wait for user response (see UIRESUME)
+    % uiwait(handles.figure1);
 
-hideAllPanels(handles);
+    % ... existing code ...
+
+    % If sourceHandles exist, use them to update handles
+    if isappdata(0, 'sourceHandles')
+        sourceHandles = getappdata(0, 'sourceHandles');
+        destinationHandles = getappdata(0, 'destinationHandles');
+        % Update handles in the edit GUI
+        guidata(hObject, destinationHandles);
+        rmappdata(0, 'sourceHandles');
+        rmappdata(0, 'destinationHandles');
+    end
+    
+    % Add these debugging statements
+    disp('Inside edit_OpeningFcn');  % Display a message to the command window
+    disp(handles);  % Display the handles structure for debugging
+
+    try
+        hideAllPanels(handles);  % Attempt to execute the hideAllPanels function
+    catch ME
+        disp('Error in hideAllPanels:');
+        disp(getReport(ME));  % Display the error information
+    end
 % UIWAIT makes edit wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
