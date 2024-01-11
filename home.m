@@ -22,7 +22,7 @@ function varargout = home(varargin)
 
 % Edit the above text to modify the response to help home
 
-% Last Modified by GUIDE v2.5 23-Dec-2023 23:07:20
+% Last Modified by GUIDE v2.5 12-Jan-2024 00:08:56
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -57,6 +57,8 @@ handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
+newTitle = 'Pencilo by Elyes Kacem';
+set(handles.figure1, 'Name', newTitle);
 
 % UIWAIT makes home wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -146,6 +148,7 @@ function pushbutton6_Callback(hObject, eventdata, handles)
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
 hideAllPanels(handles,"uipanel7");
+
 % hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -154,6 +157,7 @@ hideAllPanels(handles,"uipanel7");
 
 % --- Executes during object creation, after setting all properties.
 function axes3_CreateFcn(hObject, eventdata, handles)
+axes(hObject);
 imshow('capture1.jpg'); 
 % hObject    handle to axes3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -198,3 +202,23 @@ imshow('capture2.jpg');
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: place code in OpeningFcn to populate axes4
+
+
+% --- Executes during object creation, after setting all properties.
+function axes5_CreateFcn(hObject, eventdata, handles)
+imshow('capture1.jpg'); 
+% hObject    handle to axes5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes5
+
+
+% --- Executes during object creation, after setting all properties.
+function axes6_CreateFcn(hObject, eventdata, handles)
+imshow('capture2.jpg');
+% hObject    handle to axes6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes6

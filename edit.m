@@ -22,7 +22,7 @@ function varargout = edit(varargin)
 
 % Edit the above text to modify the response to help edit
 
-% Last Modified by GUIDE v2.5 23-Dec-2023 21:16:41
+% Last Modified by GUIDE v2.5 11-Jan-2024 22:01:23
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -116,7 +116,7 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in pushbutton3.
 function pushbutton3_Callback(hObject, eventdata, handles)
-[filename,filepath]=uigetfile({'*.jpg';'*.png';'*.*'},'Find image to be modified');
+[filename,filepath]=uigetfile({'*.*'},'Find image to be modified');
 fullname=[filepath filename];
 ImageFile=imread(fullname);
 disp(filename)
@@ -677,8 +677,11 @@ hx = fspecial('sobel');
 hy = hx';
 
 imgg = getimage(handles.axes1);
+try
 img = rgb2gray(imgg);
-
+catch
+    img=imgg
+end
 gx = conv2(img,hx);
 gy = conv2(img,hy);
 
@@ -701,3 +704,112 @@ imshow(imgRB);
 % hObject    handle to pushbutton35 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit13_Callback(hObject, eventdata, handles)
+% hObject    handle to edit13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit13 as text
+%        str2double(get(hObject,'String')) returns contents of edit13 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit13_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit12_Callback(hObject, eventdata, handles)
+% hObject    handle to edit12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit12 as text
+%        str2double(get(hObject,'String')) returns contents of edit12 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit12_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton37.
+function pushbutton37_Callback(hObject, eventdata, handles)
+minVal = str2double(get(handles.edit12, 'String')); 
+maxVal = str2double(get(handles.edit13, 'String'));
+value = str2double(get(handles.edit14, 'String'));
+
+img = getimage(handles.axes1);
+
+[n, m, ~] = size(img); % Get the size of the image, including the third dimension for color images
+
+try
+    img = rgb2gray(img);
+catch
+    % Handle the case where the image is already grayscale
+end
+
+for i = 1:n
+    for j = 1:m
+        if (img(i, j) < minVal || img(i, j) > maxVal)
+            img(i, j) = value;
+        end
+    end
+end
+
+axes(handles.axes13);
+imshow(img);
+ 
+% hObject    handle to pushbutton37 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton36.
+function pushbutton36_Callback(hObject, eventdata, handles)
+showPanelByName(handles,"Masquer zone.");
+% hObject    handle to pushbutton36 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit14_Callback(hObject, eventdata, handles)
+% hObject    handle to edit14 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit14 as text
+%        str2double(get(hObject,'String')) returns contents of edit14 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit14_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit14 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
